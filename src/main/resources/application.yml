@@ -1,0 +1,17 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: ${COURSE_DATABASE_URL}
+    username: ${COURSE_DATABASE_USER}
+    password: ${COURSE_DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        jdbc:
+          lob:
+            non-contextual-creation: true
