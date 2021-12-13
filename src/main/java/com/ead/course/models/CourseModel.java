@@ -4,17 +4,21 @@ import com.ead.course.enums.CourseLevel;
 import com.ead.course.enums.CourseStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
-@Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "courseId")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "tb_courses")
 public class CourseModel {
@@ -48,5 +52,9 @@ public class CourseModel {
 
     @Column(nullable = false)
     private UUID userInstructor;
+
+    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "course")
+    private Set<ModuleModel> modules = new HashSet<>();
 
 }
