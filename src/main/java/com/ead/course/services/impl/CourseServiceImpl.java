@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class CourseServiceImpl implements CourseService {
 
@@ -40,6 +43,16 @@ public class CourseServiceImpl implements CourseService {
         }
 
         this.courseRepository.deleteById(courseModel.getCourseId());
+    }
+
+    @Override
+    public CourseModel save(CourseModel course) {
+        return this.courseRepository.save(course);
+    }
+
+    @Override
+    public Optional<CourseModel> findById(UUID courseId) {
+        return this.courseRepository.findById(courseId);
     }
 
 }
