@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -69,6 +70,13 @@ public class CourseController {
         this.courseService.delete(course.get());
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CourseModel>> getCourses() {
+        var courses = this.courseService.findAll();
+
+        return ResponseEntity.ok().body(courses);
     }
 
 }
