@@ -79,4 +79,15 @@ public class CourseController {
         return ResponseEntity.ok().body(courses);
     }
 
+    @GetMapping("/{courseId}")
+    public ResponseEntity<CourseModel> getCourse(@PathVariable UUID courseId) {
+        var course = this.courseService.findById(courseId);
+
+        if (course.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(course.get());
+    }
+
 }
