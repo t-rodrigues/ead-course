@@ -61,4 +61,22 @@ public class ModuleController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{moduleId}")
+    public ResponseEntity<ModuleModel> updateModule(@PathVariable UUID courseId, @PathVariable UUID moduleId,
+            @RequestBody @Valid ModuleDto moduleDto) {
+        var moduleOptional = this.moduleService.findModuleIntoCourse(courseId, moduleId);
+
+        if (moduleOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var module = moduleOptional.get();
+        module.setTitle(moduleDto.getTitle());
+        module.setDescription(moduleDto.getDescription());
+
+        this.moduleService.save(module);
+
+        return ResponseEntity.ok(module);
+    }
+
 }
