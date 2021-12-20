@@ -42,17 +42,20 @@ public class CourseController {
     }
 
     @PutMapping("/{courseId}")
-    public ResponseEntity<Void> updateCourse(@PathVariable UUID courseId, @RequestBody @Valid CourseDto courseDto) {
-        // var courseOptional = this.courseService.findById(courseId);
+    public ResponseEntity<Object> updateCourse(@PathVariable UUID courseId, @RequestBody @Valid CourseDto courseDto) {
+        var courseOptional = this.courseService.findById(courseId);
 
-        // if (courseOptional.isEmpty()) {
-        // return ResponseEntity.notFound().build();
-        // }
+        if (courseOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-        // var course = courseOptional.get();
-        // this.courseService.delete(course);
+        var courseModel = courseOptional.get();
+        BeanUtils.copyProperties(courseDto, courseModel);
+        courseModel.setCourseId(courseId);
+        courseModel.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
+        this.courseService.save(courseModel);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(courseModel);
     }
 
     @DeleteMapping("/{courseId}")
