@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface LessonRepository extends JpaRepository<LessonModel, UUID> {
 
-    @Query("SELECT l FROM LessonModel l WHERE l.modules.moduleId = :moduleId")
+    @Query("SELECT l FROM LessonModel l WHERE l.module.moduleId = :moduleId")
     List<LessonModel> findAllLessonsIntoModule(UUID moduleId);
 
 }
