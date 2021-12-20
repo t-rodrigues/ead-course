@@ -6,4 +6,6 @@ public interface ModuleService {
 
     void delete(ModuleModel moduleModel);
 
+    ModuleModel save(ModuleModel moduleModel);
+
 }

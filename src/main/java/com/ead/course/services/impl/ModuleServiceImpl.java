@@ -31,4 +31,9 @@ public class ModuleServiceImpl implements ModuleService {
         this.moduleRepository.deleteById(moduleModel.getModuleId());
     }
 
+    @Override
+    public ModuleModel save(ModuleModel moduleModel) {
+        return this.moduleRepository.save(moduleModel);
+    }
+
 }
