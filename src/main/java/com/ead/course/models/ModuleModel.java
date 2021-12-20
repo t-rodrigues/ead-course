@@ -1,6 +1,7 @@
 package com.ead.course.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
@@ -37,11 +38,11 @@ public class ModuleModel {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private CourseModel course;
 
-    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     private Set<LessonModel> lessons = new HashSet<>();

@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -75,6 +76,26 @@ public class ModuleController {
         module.setDescription(moduleDto.getDescription());
 
         this.moduleService.save(module);
+
+        return ResponseEntity.ok(module);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ModuleModel>> getModules(@PathVariable UUID courseId) {
+        var modules = this.moduleService.findAllByCourse(courseId);
+
+        return ResponseEntity.ok(modules);
+    }
+
+    @GetMapping("/{moduleId}")
+    public ResponseEntity<ModuleModel> getModule(@PathVariable UUID courseId, @PathVariable UUID moduleId) {
+        var moduleOptional = this.moduleService.findModuleIntoCourse(courseId, moduleId);
+
+        if (moduleOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var module = moduleOptional.get();
 
         return ResponseEntity.ok(module);
     }
