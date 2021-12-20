@@ -16,6 +16,7 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/courses/{courseId}/modules")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ModuleController {
 
@@ -27,7 +28,7 @@ public class ModuleController {
         this.courseService = courseService;
     }
 
-    @PostMapping("/courses/{courseId}/modules")
+    @PostMapping
     public ResponseEntity<Object> saveModule(@PathVariable UUID courseId, @RequestBody @Valid ModuleDto moduleDto) {
         var courseOptional = this.courseService.findById(courseId);
 
@@ -45,6 +46,19 @@ public class ModuleController {
                 .buildAndExpand(moduleModel.getModuleId()).toUri();
 
         return ResponseEntity.created(location).body(moduleModel);
+    }
+
+    @DeleteMapping("/{moduleId}")
+    public ResponseEntity<Void> deleteModule(@PathVariable UUID courseId, @PathVariable UUID moduleId) {
+        var moduleOptional = this.moduleService.findModuleIntoCourse(courseId, moduleId);
+
+        if (moduleOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        this.moduleService.delete(moduleOptional.get());
+
+        return ResponseEntity.noContent().build();
     }
 
 }
