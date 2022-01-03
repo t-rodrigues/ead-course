@@ -26,7 +26,7 @@ public class LessonModel {
     @Column(nullable = false, length = 150)
     private String title;
 
-    @Column(nullable = false, length = 250)
+    @Column(length = 250)
     private String description;
 
     @Column(nullable = false)
