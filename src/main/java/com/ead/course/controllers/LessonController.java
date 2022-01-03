@@ -61,4 +61,22 @@ public class LessonController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{lessonId}")
+    public ResponseEntity<Object> updateLesson(@PathVariable UUID moduleId, @PathVariable UUID lessonId,
+            @RequestBody @Valid LessonDto lessonDto) {
+        var lessonOptional = this.lessonService.findLessonIntoModule(moduleId, lessonId);
+
+        if (lessonOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var lessonModel = lessonOptional.get();
+        lessonModel.setTitle(lessonDto.getTitle());
+        lessonModel.setDescription(lessonDto.getDescription());
+        lessonModel.setVideoUrl(lessonDto.getVideoUrl());
+        this.lessonService.save(lessonModel);
+
+        return ResponseEntity.ok(lessonModel);
+    }
+
 }

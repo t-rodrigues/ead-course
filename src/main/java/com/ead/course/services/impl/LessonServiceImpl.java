@@ -24,7 +24,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public Optional<LessonModel> findLessonIntoModule(UUID moduleId, UUID lessonId) {
-        return this.lessonRepository.findByLessonIdAndModule(lessonId, moduleId);
+        return this.lessonRepository.findLessonIntoModule(lessonId, moduleId);
     }
 
     @Override
