@@ -48,4 +48,17 @@ public class LessonController {
         return ResponseEntity.created(location).body(lessonModel);
     }
 
+    @DeleteMapping("/{lessonId}")
+    public ResponseEntity<Void> deleteLesson(@PathVariable UUID moduleId, @PathVariable UUID lessonId) {
+        var lessonOptional = this.lessonService.findLessonIntoModule(moduleId, lessonId);
+
+        if (lessonOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        this.lessonService.delete(lessonOptional.get());
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

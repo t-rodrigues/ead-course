@@ -5,6 +5,9 @@ import com.ead.course.repositories.LessonRepository;
 import com.ead.course.services.LessonService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class LessonServiceImpl implements LessonService {
 
@@ -17,6 +20,16 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public LessonModel save(LessonModel lessonModel) {
         return this.lessonRepository.save(lessonModel);
+    }
+
+    @Override
+    public Optional<LessonModel> findLessonIntoModule(UUID moduleId, UUID lessonId) {
+        return this.lessonRepository.findByLessonIdAndModule(lessonId, moduleId);
+    }
+
+    @Override
+    public void delete(LessonModel lessonModel) {
+        this.lessonRepository.delete(lessonModel);
     }
 
 }
