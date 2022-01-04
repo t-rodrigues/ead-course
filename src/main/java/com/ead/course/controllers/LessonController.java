@@ -87,4 +87,15 @@ public class LessonController {
         return ResponseEntity.ok(lessons);
     }
 
+    @GetMapping("/{lessonId}")
+    public ResponseEntity<LessonModel> getLesson(@PathVariable UUID moduleId, @PathVariable UUID lessonId) {
+        var lessonOptional = this.lessonService.findLessonIntoModule(moduleId, lessonId);
+
+        if (lessonOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(lessonOptional.get());
+    }
+
 }
