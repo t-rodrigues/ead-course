@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -77,6 +78,13 @@ public class LessonController {
         this.lessonService.save(lessonModel);
 
         return ResponseEntity.ok(lessonModel);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<LessonModel>> getLessons(@PathVariable UUID moduleId) {
+        var lessons = this.lessonService.findAllByModule(moduleId);
+
+        return ResponseEntity.ok(lessons);
     }
 
 }
