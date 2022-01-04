@@ -4,7 +4,12 @@ import com.ead.course.dtos.LessonDto;
 import com.ead.course.models.LessonModel;
 import com.ead.course.services.LessonService;
 import com.ead.course.services.ModuleService;
+import com.ead.course.specifications.SpecificationTemplate;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,7 +18,6 @@ import javax.validation.Valid;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -81,8 +85,11 @@ public class LessonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LessonModel>> getLessons(@PathVariable UUID moduleId) {
-        var lessons = this.lessonService.findAllByModule(moduleId);
+    public ResponseEntity<Page<LessonModel>> getLessons(@PathVariable UUID moduleId,
+            SpecificationTemplate.LessonSpec spec,
+            @PageableDefault(page = 0, size = 10, sort = "lessonId", direction = Direction.ASC) Pageable pageable) {
+        var lessons = this.lessonService.findAllByModule(SpecificationTemplate.lessonModuleId(moduleId).and(spec),
+                pageable);
 
         return ResponseEntity.ok(lessons);
     }
